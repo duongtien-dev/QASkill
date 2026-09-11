@@ -1,0 +1,45 @@
+version: 1
+
+language: en
+
+testcase:
+  format: markdown
+  id_prefix: TC
+  include:
+    - id
+    - module
+    - type
+    - title
+    - preconditions
+    - steps
+    - test_data
+    - expected_result
+    - priority
+    - evidence
+
+priorities:
+  - HIGH
+  - MEDIUM
+  - LOW
+
+types:
+  - FUNCTIONAL
+  - VALIDATION
+  - BOUNDARY
+  - NEGATIVE
+  - INTERACTION
+  - STATE
+  - RESPONSIVE
+  - ACCESSIBILITY
+
+rules:
+  include_unknown_rules_section: true
+  include_coverage_summary: true
+  prevent_business_rule_invention: true
+  remove_duplicates: true
+
+responsive:
+  enabled: true
+
+accessibility:
+  enabled: true
