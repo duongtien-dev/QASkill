@@ -5,3 +5,6 @@ coverage/
 *.tgz
 .DS_Store
 .qa-skills-backup-*/
+
+# Internal project documents / specs — not published or pushed.
+documents/
