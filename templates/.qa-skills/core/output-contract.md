@@ -2,44 +2,31 @@
 
 The standardized output format for generated manual test cases.
 
-## Default Fields
+## Default Response
 
-```text
-ID
-Module
-Type
-Title
-Preconditions
-Steps
-Test Data
-Expected Result
-Priority
-Evidence
-```
+Start with the test cases. Nothing before them.
+
+Compact table (default, `testcase.format: compact`):
+
+| ID | Type | Test Case | Steps | Test Data | Expected Result | Priority |
+|---|---|---|---|---|---|---|
+
+- `Steps` are numbered on one line, separated by `;`.
+- `Test Data` stays short. Group data variants instead of adding rows.
+- `Expected Result` is one observable result.
+
+Detailed format (`testcase.format: detailed`) is used by Deep mode; see
+`templates/testcase-detailed.md`.
 
 ## IDs
 
-Default when no module is known:
-
-```text
-TC-001
-TC-002
-TC-003
-```
-
-Prefer a module-specific prefix when the module is known:
-
-```text
-LOGIN-001
-USER-001
-COURSE-001
-```
-
-Global uniqueness across the whole repository is not required.
+`<prefix>-<seq>` using `testcase.id_prefix`. Prefer a module prefix when the
+module is known (`LOGIN-001`). Global uniqueness across a repository is not
+required.
 
 ## Types
 
-One primary type per case (choose the dominant concern):
+One primary type per case:
 
 ```text
 FUNCTIONAL
@@ -52,48 +39,26 @@ RESPONSIVE
 ACCESSIBILITY
 ```
 
-## Priority Guidance
+## Priority
 
 ```text
-HIGH    primary business path, data loss risk, critical validation,
-        create/update/delete, authentication, blocking error
-
-MEDIUM  secondary behavior, common negative case, boundary,
-        search/filter, loading/empty/error state
-
-LOW     minor usability, non-critical visual/interaction behavior,
-        low-impact edge scenario
+HIGH    primary business path, data loss, authentication, critical validation
+MEDIUM  secondary behavior, common negative, boundary, loading/empty/error
+LOW     minor usability or visual behavior, low-impact edge scenario
 ```
 
-Priority is a heuristic unless project rules specify otherwise.
+## After the Cases
 
-## Test Context Header
+Print nothing else by default.
 
-```markdown
-# Manual Test Cases — <Feature>
+Optional sections, each enabled only by `config.yml`:
 
-## Test Context
-
-**Target:** <screen / feature>
-
-**Evidence used:**
-- `<file>`
-- <screenshot / requirement>
-
-**Applied skills:**
-- <skill>
-
-**Applied presets:**
-- <preset>
-```
-
-## Formats
-
-- Markdown (default): see `templates/testcase-markdown.md`.
-- Compact table (when `testcase.format: compact`): see `templates/testcase-compact.md`.
-- Coverage summary: see `templates/coverage-report.md`.
+- Coverage summary: `response.show_coverage_summary`
+  (see `templates/coverage-report.md`).
+- Missing rules: allowed up to `response.max_missing_rules` when a required
+  business rule is unknown and changes expected results.
 
 ## Language
 
-Return test case content in the configured `language` (`en` or `vi`). The skill
+Return test case content in the configured `language` (`en` or `vi`). The
 methodology files remain in English for consistency.

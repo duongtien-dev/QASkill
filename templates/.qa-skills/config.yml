@@ -1,21 +1,43 @@
-version: 1
+version: 2
 
 language: en
 
+response:
+  mode: standard
+  output_only: true
+  show_intro: false
+  show_outro: false
+  show_methodology: false
+  show_applied_skills: false
+  show_ui_inventory: false
+  show_evidence_summary: false
+  show_coverage_summary: false
+  show_recommendations: false
+  max_missing_rules: 5
+
 testcase:
-  format: markdown
+  format: compact
   id_prefix: TC
+  merge_similar_cases: true
+  only_applicable_cases: true
+  limits:
+    quick:
+      target_min: 8
+      target_max: 15
+    standard:
+      target_min: 15
+      target_max: 30
+    deep:
+      target_min: 20
+      target_max: 60
   include:
     - id
-    - module
     - type
-    - title
-    - preconditions
+    - test_case
     - steps
     - test_data
     - expected_result
     - priority
-    - evidence
 
 priorities:
   - HIGH
@@ -33,13 +55,16 @@ types:
   - ACCESSIBILITY
 
 rules:
-  include_unknown_rules_section: true
-  include_coverage_summary: true
   prevent_business_rule_invention: true
   remove_duplicates: true
+  group_data_variants: true
+  ask_before_testing: false
+  preserve_critical_cases_over_limit: true
 
 responsive:
   enabled: true
+  standard_max_cases: 3
 
 accessibility:
   enabled: true
+  standard_max_cases: 3

@@ -2,26 +2,20 @@
 
 ## Purpose
 
-Review the generated set before returning it, to guarantee quality and eliminate
-noise.
+Final internal quality gate before returning the case set.
 
 ## Apply When
 
-Always, as the final step before producing output.
-
-## Inputs To Inspect
-
-- The full list of generated cases
-- The UI inventory
-- The evidence for each case
+Always, as the last internal step.
 
 ## Procedure
 
 1. Remove duplicates and merge equivalent cases.
-2. Remove vague, unexecutable or unsupported cases.
-3. Ensure every case has a single clear observable result.
-4. Confirm coverage using `core/coverage-checklist.md`.
-5. Confirm IDs are unique and ordered.
+2. Merge data variants into one case (`rules.group_data_variants`).
+3. Remove vague, unexecutable or unsupported cases.
+4. Ensure every case has one clear observable result.
+5. Apply the active mode limits; keep critical cases when over the limit.
+6. Confirm IDs are unique and ordered.
 
 ## Remove Cases That Are
 
@@ -30,26 +24,15 @@ duplicate
 too vague
 unsupported by evidence
 unexecutable
-same scenario with different wording
+same condition with different wording
 not relevant to the target feature
 ```
 
-## Every Final Case Must Answer
+## Do Not Print
 
-```text
-What is tested?
-What condition is required?
-What actions are performed?
-What data is used?
-What observable result should occur?
-```
-
-## Do Not Assume
-
-- Do not keep a case just to increase the count.
-- Do not keep separate cases for the same condition with different wording.
+Do not print the review, a coverage summary, applied skills or applied presets
+unless `config.yml` enables them. Return only the final cases.
 
 ## Output Expectations
 
-A de-duplicated, prioritized, evidence-backed case set followed by a Coverage
-Summary and a Questions / Missing Rules section.
+A de-duplicated, prioritized, evidence-backed case set within the mode limits.

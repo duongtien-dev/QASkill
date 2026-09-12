@@ -1,7 +1,7 @@
 # Output Template: Coverage Report
 
-Append this section after the test cases when
-`rules.include_coverage_summary` is `true`.
+Append this section after the test cases only when
+`response.show_coverage_summary` is `true`.
 
 ```markdown
 ## Coverage Summary
@@ -33,8 +33,7 @@ Coverage status: Strong / Partial / Missing information
 Do not produce fake mathematical precision when coverage cannot be objectively
 measured.
 
-If `rules.include_unknown_rules_section` is `true`, follow the coverage summary
-with:
+Missing rules are always limited by `response.max_missing_rules`:
 
 ```markdown
 ## Questions / Missing Rules

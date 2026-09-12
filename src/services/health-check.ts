@@ -35,8 +35,8 @@ export interface DoctorResult {
 }
 
 export const OUTPUT_TEMPLATES = [
-    'testcase-markdown.md',
     'testcase-compact.md',
+    'testcase-detailed.md',
     'coverage-report.md',
 ];
 

@@ -2,65 +2,29 @@
 
 ## Purpose
 
-Systematically inventory a screen before writing any test case, so coverage is
-driven by what actually exists.
+Build a complete internal inventory of the target screen before writing any case.
 
 ## Apply When
 
-Always. This is the first skill applied to any target screen.
-
-## Inputs To Inspect
-
-- Screenshot / UI image
-- Component source (JSX/TSX/HTML/Vue/Svelte templates)
-- Route definitions and layouts
+Always, as the first internal step.
 
 ## Procedure
 
-1. Name the screen and its business goal.
-2. List every interactive element.
-3. List every visible state.
-4. List every displayed data surface (tables, lists, cards).
-5. List navigation entry/exit points.
+1. Name the screen/feature and its business goal.
+2. List interactive elements: inputs, textarea, select, combobox, date picker,
+   buttons, links, icon buttons, checkboxes, radios, toggles, upload, tabs,
+   accordions, modal/dialog, toast, table, pagination, search, filters, menus.
+3. List visible states: default, loading, success, error, empty, disabled,
+   read-only, no-permission, no-result, partial.
+4. List data surfaces: tables, lists, cards.
+5. List navigation entry and exit points.
 
-## Checklist
+## Internal Only
 
-Identify, when present:
-
-```text
-Inputs / Textarea / Select / Combobox / Autocomplete / Date picker
-Buttons / Links / Icon buttons
-Checkboxes / Radio buttons / Toggle / Switch
-File upload / Drop zone
-Tabs / Accordions / Drawer / Tooltip / Popover
-Modal / Dialog / Confirmation dialog
-Toast / Notification / Banner
-Cards / Tables / Pagination / Search / Filters / Sorting
-Menus / Navigation / Breadcrumbs
-Images / Icons
-Empty state / Loading state / Error state / Success state
-Disabled state / Read-only state / Skeleton
-```
+The inventory is analysis. Do not print it unless `response.show_ui_inventory` is
+`true`.
 
 ## Do Not Assume
 
-- Do not assume a control's behavior from its label alone.
-- Do not assume hidden interactions that a screenshot cannot show.
-
-## Output Expectations
-
-```text
-Screen:
-<name>
-
-Interactive elements:
-- <element>
-
-Visible states:
-- <state>
-
-Data surfaces:
-- <surface>
-```
-
-Do not generate test cases until the inventory is complete.
+- Do not infer a control's behavior from its label alone.
+- Do not assume hidden interactions a screenshot cannot show.

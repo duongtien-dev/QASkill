@@ -2,61 +2,36 @@
 
 ## Apply When
 
-The target is a generic data-entry form (not specifically login, not a CRUD flow).
+A generic data-entry form (not login, not a CRUD flow).
 
-## Core Areas
-
-- Required vs optional fields
-- Input format and boundaries
-- Default values
-- Submit / cancel / reset
-- Error display and clearing
-
-## Recommended Skills
-
-- ui-analysis
-- functional-testing
-- form-validation
-- boundary-value
-- negative-testing
-- interaction-testing
-- state-testing
-- responsive-testing
-- accessibility-testing
-- testcase-review
-
-## Scenario Checklist
+## Candidate Areas
 
 ```text
-Required fields
-Optional fields
-Input format
-Boundary values
-Default values
-Submit
-Cancel
-Reset
-Error display
-Error clear behavior
-Tab order
-Duplicate submit
-Unsaved data
-Loading
-Server failure
+required vs optional fields
+input format and boundaries
+default values
+submit / cancel / reset
+error display and clearing
+duplicate submit
+unsaved-change warning if implemented
+loading / server failure
 ```
 
-## Missing Business Rules To Flag
+## Only Applicable
+
+Include only the fields and actions present on the form.
+
+## Missing Rules To Flag
 
 ```text
-field-level format rules not stated
+field-level format rules
 save/submit destination
-warnings on unsaved changes
+unsaved-change warning
 permission requirements
 ```
 
-## Common Duplicate Cases
+## Common Duplicates
 
-- One "required field" case repeated verbatim for every field (combine or vary the
-  input clearly).
+- One "required field" case repeated verbatim for every field (combine or vary).
 - "Cancel" and "close" when they perform the same action.
 - "Empty form submit" duplicated for each field.

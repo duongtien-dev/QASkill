@@ -1,78 +1,26 @@
-# Core: Test Design Process
+# Core: Test Design Process (Internal)
 
-Follow these steps in order. Do not generate test cases before the inventory is
-complete.
+Run these steps internally. Do **not** print them. The response contains only the
+final test cases.
 
-## Step 1 — Collect Evidence
-
-Gather requirements, source code, API contract, screenshots and existing tests.
-
-## Step 2 — Identify Target
-
-Name the screen/feature and the business goal it serves.
-
-## Step 3 — Inventory UI Elements
-
-Use `skills/ui-analysis/SKILL.md`. List every interactive and stateful element.
-
-## Step 4 — Extract Known Rules and Constraints
-
-From source and requirements, list concrete constraints:
+## Steps
 
 ```text
-required
-minLength / maxLength
-min / max
-pattern
-disabled conditions
-loading conditions
-error and empty conditions
-permission checks
+1. Collect evidence: requirement, source, API contract, screenshot, existing tests.
+2. Identify the target screen/feature and its business goal.
+3. Inventory interactive elements and states (see skills/ui-analysis).
+4. Extract known constraints: required, min/max, minLength/maxLength, pattern,
+   disabled/loading/error conditions, permissions.
+5. Select only the skills and presets whose elements exist on the target.
+6. Generate candidate cases by category:
+   functional, validation, boundary, negative, interaction, state,
+   responsive, accessibility.
+7. Deduplicate and merge data variants.
+8. Rank by importance, apply the active mode limits, keep critical cases.
+9. Produce the output in the configured format.
 ```
 
-## Step 5 — Identify UI States
-
-Look for default, loading, success, error, empty, disabled, read-only,
-no-permission, no-result, partial, offline and stale states.
-
-## Step 6 — Select Skills and Presets
-
-Pick only the skills and presets whose elements exist on the target screen.
-
-## Step 7 — Generate Cases by Category
-
-Generate in this order so nothing is missed:
-
-```text
-1. Functional (happy path)
-2. Validation
-3. Boundary
-4. Negative
-5. Interaction
-6. State
-7. Responsive (if UI available)
-8. Accessibility (if applicable)
-```
-
-For every primary feature, include at least a successful workflow, an expected
-failure workflow, a cancellation workflow when applicable, and repeated-action
-behavior when applicable.
-
-## Step 8 — Remove Duplicates
-
-Apply `skills/testcase-review/SKILL.md`.
-
-## Step 9 — Review Coverage
-
-Apply `core/coverage-checklist.md`.
-
-## Step 10 — Mark Unknown Rules
-
-Add a `## Questions / Missing Rules` section.
-
-## Step 11 — Produce Output
-
-Use the configured format from `core/output-contract.md`.
+Steps 1-6 are analysis only and must never appear in the response.
 
 ## Granularity
 
@@ -85,3 +33,14 @@ Preferred:  "Verify required email validation when the form is submitted without
 ```
 
 Generate pixel-level visual tests only when explicitly requested.
+
+## Mode Limits
+
+```text
+quick      8-15 cases
+standard   15-30 cases (default)
+deep       20-60 cases
+```
+
+Limits come from `testcase.limits`. When over the limit, remove the weakest cases
+first and keep critical ones (`rules.preserve_critical_cases_over_limit`).

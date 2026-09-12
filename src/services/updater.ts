@@ -19,6 +19,7 @@ import {
 import { readMetadata, writeMetadata } from './metadata.js';
 import { listInstalledPresets } from './preset-manager.js';
 import { findProjectRoot } from './project-root.js';
+import { migrateConfigFile } from './config-manager.js';
 import { confirm } from '../utils/prompt.js';
 
 /**
@@ -46,6 +47,8 @@ export interface UpdateResult {
     updatedFiles: string[];
     version: string;
     dryRun: boolean;
+    /** True when a version 1 `config.yml` was migrated to version 2. */
+    configMigrated?: boolean;
 }
 
 /** `qaskill-backup-YYYYMMDD-HHmmss` in the project root. */
@@ -104,7 +107,7 @@ export async function updateInstallation(options: UpdateOptions = {}): Promise<U
     const files = await collectManagedFiles(templatesDir, installedPresets);
 
     if (dryRun) {
-        return { projectRoot, updatedFiles: files, version, dryRun: true };
+        return { projectRoot, updatedFiles: files, version, dryRun: true, configMigrated: false };
     }
 
     if (!options.force && !options.yes) {
@@ -127,13 +130,26 @@ export async function updateInstallation(options: UpdateOptions = {}): Promise<U
 
     await copyDir(templatesDir, qaSkillsDir, { filter: buildUpdateFilter(installedPresets) });
 
+    // Spec section 56: migrate a version 1 config after the backup exists.
+    const configMigrated = await migrateConfigFile(projectRoot);
+    if (configMigrated) {
+        logger.info('config.yml migrated from version 1 to version 2.');
+    }
+
     if (metadata) {
         metadata.version = version;
         metadata.presets = installedPresets;
         await writeMetadata(projectRoot, metadata);
     }
 
-    return { projectRoot, backupDir, updatedFiles: files, version, dryRun: false };
+    return {
+        projectRoot,
+        backupDir,
+        updatedFiles: files,
+        version,
+        dryRun: false,
+        configMigrated,
+    };
 }
 
 async function collectManagedFiles(

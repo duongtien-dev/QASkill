@@ -4,53 +4,38 @@
 
 The UI allows creating, reading, updating or deleting records.
 
-## Core Areas
-
-- Create flow
-- Read/list and detail view
-- Update flow
-- Delete flow with confirmation
-- Post-mutation refresh and error handling
-
-## Recommended Skills
-
-- ui-analysis
-- functional-testing
-- form-validation
-- negative-testing
-- interaction-testing
-- state-testing
-- responsive-testing
-- testcase-review
-
-## Scenario Checklist
+## Candidate Areas
 
 ```text
-Create
-Read/List
-View detail
-Update
-Delete
-Cancel delete
-Delete confirmation
-Refresh after mutation
-Error handling
-Permission if known
-Duplicate item if relevant
-Empty state
+create
+read / list
+view detail
+update
+delete
+cancel delete
+delete confirmation
+refresh after mutation
+error handling
+permission if known
+duplicate item if relevant
+empty state
 ```
 
-## Missing Business Rules To Flag
+## Only Applicable
+
+Include only the operations the screen implements.
+
+## Missing Rules To Flag
 
 ```text
 required fields per entity
 unique constraints
 delete permissions
 cascade behavior
-audit/soft-delete rules
+audit / soft-delete rules
 ```
 
-## Common Duplicate Cases
+## Common Duplicates
 
 - "Delete" and "Confirm delete" treated as separate when only confirmation matters.
 - "Cancel delete" repeated for each entry point with no path difference.

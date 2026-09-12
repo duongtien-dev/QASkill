@@ -1,7 +1,7 @@
 # Core: Evidence Rules
 
-Every test case must be justified by evidence, an assumption (clearly marked), or a
-standard UI behavior. This file defines how to classify and record evidence.
+Every test case must be justified by evidence, a clearly marked assumption, or a
+standard UI behavior.
 
 ## Evidence Priority
 
@@ -14,57 +14,37 @@ standard UI behavior. This file defines how to classify and record evidence.
 6. Reasonable QA hypothesis marked as an ASSUMPTION
 ```
 
-## Evidence Status Values
+## Evidence Controls Correctness, Not Verbosity
+
+Evidence reasoning is internal. Do not print an evidence summary by default.
+
+Surface evidence only when:
+
+- it changes the meaning or expected result of a case; or
+- the user explicitly asks for traceability
+  (`response.show_evidence_summary: true`).
+
+## Status Values
 
 ```text
-KNOWN              stated explicitly or observable and certain
-INFERRED_FROM_CODE derived from source code that clearly implements the behavior
-ASSUMPTION         a reasonable QA hypothesis, not confirmed by evidence
-UNKNOWN            a business rule that is required but not provided
+KNOWN                stated explicitly or observable and certain
+INFERRED_FROM_CODE   derived from source that clearly implements the behavior
+ASSUMPTION           a reasonable hypothesis, not confirmed by evidence
+UNKNOWN              a business rule that is required but not provided
 ```
 
 Never silently convert an ASSUMPTION into a requirement.
 
-## Evidence Field Examples
+## Missing Rules
+
+When a required rule is unknown, do not fabricate an expected result. Report it as
+a missing rule (limited by `response.max_missing_rules`) or omit it when it does
+not matter.
+
+## Example (Internal Reasoning)
 
 ```text
-Evidence:
-Requirement: Password length is 8-20 characters.
-```
-
-```text
-Evidence:
-Source: LoginForm.tsx sets minLength={8} and maxLength={20}.
-```
-
-```text
-Evidence:
-UI: Remember me checkbox is visible on the login screen.
-```
-
-```text
-Evidence:
-Assumption: Standard browser behavior for a native email input.
-```
-
-## Rules
-
-- Prefer source code over screenshots for validation thresholds.
-- Cite the specific file, prop, attribute or requirement text when possible.
-- If two sources conflict, follow the priority order above and note the conflict.
-- If evidence is missing, do not guess a numeric rule. Use the Unknown Rule format.
-
-## Unknown Rule Format
-
-When a business rule is unknown, do not assert a specific behavior.
-
-```text
-Potential test area:
-Repeated failed login attempts.
-
-Status:
-Requires business rule confirmation.
-
-Reason:
-No retry/lock policy is provided.
+Requirement: password length is 8-20.
+Source: LoginForm.tsx sets minLength={8} maxLength={20}.
+Result: one BOUNDARY case with data 7, 8, 9, 19, 20, 21.
 ```

@@ -4,56 +4,38 @@
 
 The UI contains a file picker or drag-and-drop drop zone.
 
-## Core Areas
-
-- Valid / invalid selection
-- Size and count limits (only if known)
-- Remove / replace
-- Progress and failure handling
-- Filename edge cases
-
-## Recommended Skills
-
-- ui-analysis
-- functional-testing
-- form-validation
-- boundary-value
-- negative-testing
-- interaction-testing
-- state-testing
-- accessibility-testing
-- testcase-review
-
-## Scenario Checklist
+## Candidate Areas
 
 ```text
-Valid file
-Invalid file type
-Empty selection
-Maximum size if known
-Maximum count if known
-Remove selected file
-Replace file
-Upload progress if present
-Upload failure
-Retry if present
-Duplicate file
-Long filename
+valid file
+invalid file type
+empty selection
+maximum size if known
+maximum count if known
+remove selected file
+replace file
+upload progress if present
+upload failure
+retry if present
+duplicate file
+long filename
 ```
 
-## Missing Business Rules To Flag
+## Only Applicable
+
+Include only the behaviors the upload implements. Do not invent size/type limits.
+
+## Missing Rules To Flag
 
 ```text
 allowed file types
 maximum size
 maximum count
 storage destination
-virus/security scanning
+virus / security scanning
 ```
 
-## Common Duplicate Cases
+## Common Duplicates
 
 - "Select file" vs "choose file" when they describe the same action.
 - Size-limit cases generated when the limit is unknown (they become assumptions).
-
-Do not invent size/type limits.

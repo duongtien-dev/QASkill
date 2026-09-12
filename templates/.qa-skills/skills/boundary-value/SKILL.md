@@ -2,62 +2,31 @@
 
 ## Purpose
 
-Test the edges of every known range, limit or count.
+Test the edges of known ranges, limits and counts.
 
 ## Apply When
 
-Any constraint with a known numeric or length boundary exists, or any paginated /
-counted collection exists.
-
-## Inputs To Inspect
-
-- min / max / minLength / maxLength
-- Page size, total counts, item limits
-- Date ranges, quantities, percentages, scores
+A numeric, length, date or count boundary is known from source or requirement.
 
 ## Procedure
 
 1. Find each known boundary.
-2. Design cases at `min-1, min, min+1` and `max-1, max, max+1`.
-3. Derive expected results from the source/requirement rule.
+2. Use values `min-1, min, min+1` and `max-1, max, max+1`.
+3. Derive the expected result from the source/requirement rule.
 
-## General Formula
+## Compact Output Rule
 
-```text
-min - 1
-min
-min + 1
-max - 1
-max
-max + 1
-```
-
-Example with `min = 8`, `max = 20`:
+Never print one case per value. Group the data variants into a single case:
 
 ```text
-7, 8, 9, 19, 20, 21
-```
-
-## Checklist — Apply To
-
-```text
-string length
-numeric value
-date range
-pagination
-file count
-quantity
-time
-score
-percentage
-allowed items
+Test Data: 7, 8, 9 (min-1, min, min+1); 19, 20, 21 (max-1, max, max+1)
 ```
 
 ## Do Not Assume
 
-- Do not generate imaginary boundaries.
-- Do not use numeric boundaries (e.g. page size) unless the value is known.
+- Do not invent boundaries or numeric limits (page size, max count) that no
+  evidence supports.
 
 ## Output Expectations
 
-Cases classified as type BOUNDARY, each stating the exact value used and its source.
+BOUNDARY cases naming the exact values and their source.

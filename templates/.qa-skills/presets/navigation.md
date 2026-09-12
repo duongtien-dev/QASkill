@@ -4,39 +4,25 @@
 
 The UI contains routes, menus, tabs or browser back/forward behavior.
 
-## Core Areas
-
-- Link/navigation behavior
-- Active state
-- Browser history
-- Direct URL access
-- Missing route handling
-
-## Recommended Skills
-
-- ui-analysis
-- functional-testing
-- interaction-testing
-- state-testing
-- responsive-testing
-- accessibility-testing
-- testcase-review
-
-## Scenario Checklist
+## Candidate Areas
 
 ```text
-Click navigation link
-Active state
-Browser back
-Browser forward
-Refresh
-Direct URL access
-Missing route handling
-Permission handling only if known
-External link target only if defined
+click navigation link
+active state
+browser back
+browser forward
+refresh
+direct URL access
+missing route handling
+permission handling only if known
+external link target only if defined
 ```
 
-## Missing Business Rules To Flag
+## Only Applicable
+
+Include only the routes and behaviors the UI implements.
+
+## Missing Rules To Flag
 
 ```text
 protected routes
@@ -45,7 +31,7 @@ default landing route
 external link target/rel rules
 ```
 
-## Common Duplicate Cases
+## Common Duplicates
 
 - "Navigate via menu" vs "navigate via link" when the destination and path are the same.
 - Back/forward cases repeated per route with identical behavior.

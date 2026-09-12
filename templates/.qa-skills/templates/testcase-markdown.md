@@ -1,26 +1,13 @@
-# Output Template: Test Case (Markdown)
+# Output Template: Test Case (Markdown — Legacy)
 
-Template for the default `testcase.format: markdown`.
+Kept for backward compatibility with v1 installations.
+
+New projects should use `testcase-compact.md` (default) or
+`testcase-detailed.md`. This file documents the per-case block layout that the
+`markdown` format produced.
 
 ````markdown
 # Manual Test Cases — <Feature>
-
-## Test Context
-
-**Target:** <screen / feature>
-
-**Evidence used:**
-- `<file>`
-- <screenshot / requirement>
-
-**Applied skills:**
-- UI Analysis
-- Functional Testing
-
-**Applied presets:**
-- <preset>
-
----
 
 ## <PREFIX>-001
 
@@ -59,5 +46,4 @@ Login successfully with valid credentials.
 ````
 
 Avoid stating a specific result (for example "redirect to Dashboard") unless
-evidence proves it. If the destination is unknown, describe the observable result
-that is actually supported by evidence.
+evidence proves it.

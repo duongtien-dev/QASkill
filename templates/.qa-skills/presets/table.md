@@ -4,43 +4,26 @@
 
 The UI renders tabular data (rows and columns).
 
-## Core Areas
-
-- Rendering and columns
-- Empty / loading / error states
-- Long and large content
-- Row actions and selection
-- Sorting and integration with search/filter/pagination
-
-## Recommended Skills
-
-- ui-analysis
-- functional-testing
-- state-testing
-- interaction-testing
-- responsive-testing
-- accessibility-testing
-- testcase-review
-
-## Scenario Checklist
+## Candidate Areas
 
 ```text
-Render rows
-Columns
-Empty data
-Loading
-Error
-Long text
-Large row count
-Row action
-Selection
-Sort if present
-Pagination if present
-Search/filter integration
-Responsive behavior
+rows and columns render
+empty / loading / error states
+long text
+large row count
+row action
+selection
+sort if present
+pagination if present
+search / filter integration
+responsive behavior
 ```
 
-## Missing Business Rules To Flag
+## Only Applicable
+
+Include only the features the table implements.
+
+## Missing Rules To Flag
 
 ```text
 default sort order
@@ -49,8 +32,8 @@ column visibility rules
 row selection semantics
 ```
 
-## Common Duplicate Cases
+## Common Duplicates
 
 - "Table shows data" vs "rows render".
-- Multiple empty-state cases that describe the same condition.
+- Multiple empty-state cases describing the same condition.
 - Selection cases repeated per row-action variation.

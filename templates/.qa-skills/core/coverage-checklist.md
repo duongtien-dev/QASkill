@@ -1,55 +1,25 @@
-# Core: Coverage Checklist
+# Core: Coverage Checklist (Internal)
 
-Use this before returning the result. Confirm each applicable area is covered.
-
-## Coverage Areas
-
-```text
-Functional
-Validation
-Boundary
-Negative
-Interaction
-State
-Responsive
-Accessibility
-```
+Use this to audit your own work. Do **not** print the checklist or a per-area
+report.
 
 ## Checklist
 
-- [ ] Every interactive element from the inventory has at least one case.
-- [ ] Every primary action has a success case.
-- [ ] Every primary action has an expected-failure case.
-- [ ] Every numeric/length constraint has boundary cases (min-1, min, min+1, max-1, max, max+1).
-- [ ] Validation shows error states and error clearing.
-- [ ] Loading, empty, error and success states are covered when they exist.
-- [ ] Negative/edge cases are covered.
-- [ ] Responsive behavior is covered when a UI is available.
-- [ ] Keyboard/accessibility basics are covered when applicable.
-- [ ] No duplicate cases remain.
-- [ ] Every case has evidence.
-- [ ] Unknown business rules are listed separately.
+- [ ] Every interactive element has at least one case, or a clear reason to skip it.
+- [ ] Every primary action has a success case and an expected-failure case.
+- [ ] Every known numeric/length/date/page constraint has boundary cases
+      (min-1, min, min+1, max-1, max, max+1), grouped into one case.
+- [ ] Validation error display and error clearing are covered.
+- [ ] Loading/empty/error/success states are covered when they exist.
+- [ ] Negative cases target the most plausible failures only.
+- [ ] Responsive cases are limited to `responsive.standard_max_cases`.
+- [ ] Accessibility cases are limited to `accessibility.standard_max_cases`.
+- [ ] No duplicate cases remain; data variants are grouped.
+- [ ] Case count is within the active mode limits.
+- [ ] Unknown business rules are noted only when they change expected results.
 
-## Coverage Summary Template
+## Printing
 
-```text
-UI elements discovered: <n>
-UI elements covered: <n>
-
-Covered areas:
-- Functional
-- Validation
-- Boundary
-- Negative
-- Interaction
-- State
-- Responsive
-- Accessibility
-
-Missing/unknown:
-- <business rule 1>
-- <business rule 2>
-```
-
-Prefer a qualitative status (Strong / Partial / Missing information) over invented
-percentages. Do not produce fake mathematical precision.
+A coverage summary is opt-in via `response.show_coverage_summary`. When enabled,
+use `templates/coverage-report.md` and prefer a qualitative status
+(Strong / Partial / Missing information) over invented percentages.

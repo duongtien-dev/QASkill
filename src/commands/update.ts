@@ -34,7 +34,11 @@ export async function runUpdate(options: UpdateCommandOptions = {}): Promise<Upd
     }
 
     logger.success(`Managed files updated to v${result.version}`);
-    logger.raw('  config.yml and custom/ were preserved.');
+    if (result.configMigrated) {
+        logger.raw('  config.yml migrated to version 2.');
+    } else {
+        logger.raw('  config.yml and custom/ were preserved.');
+    }
     if (result.backupDir) {
         logger.raw(`  Backup: ${result.backupDir}`);
     }

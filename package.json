@@ -1,6 +1,6 @@
 {
   "name": "qaskill",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Installable Manual QA skills for AI coding agents. Generate more complete UI test cases from your code, screenshots and requirements.",
   "keywords": [
     "qa",

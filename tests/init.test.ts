@@ -30,9 +30,10 @@ describe('qaskill init', () => {
     await initProject({ cwd: projectRoot, logger: silentLogger });
     expect(await exists(path.join(projectRoot, QA_SKILLS_DIR, 'config.yml'))).toBe(true);
     const config = await loadConfig(projectRoot);
-    expect(config.version).toBe(1);
+    expect(config.version).toBe(2);
     expect(config.language).toBe('en');
-    expect(config.testcase.format).toBe('markdown');
+    expect(config.testcase.format).toBe('compact');
+    expect(config.response.mode).toBe('standard');
   });
 
   it('honours the --language flag', async () => {
@@ -59,7 +60,12 @@ describe('qaskill init', () => {
         `missing preset ${preset}`,
       ).toBe(true);
     }
-    for (const template of ['testcase-markdown.md', 'testcase-compact.md', 'coverage-report.md']) {
+    for (const template of [
+      'testcase-markdown.md',
+      'testcase-compact.md',
+      'testcase-detailed.md',
+      'coverage-report.md',
+    ]) {
       expect(
         await exists(path.join(projectRoot, QA_SKILLS_DIR, 'templates', template)),
         `missing template ${template}`,
@@ -117,6 +123,7 @@ describe('qaskill init', () => {
       'skills/testcase-review/SKILL.md',
       'presets/login.md',
       'templates/coverage-report.md',
+      'templates/testcase-detailed.md',
       'custom/README.md',
     ]) {
       expect(files, `expected ${expected} in installation`).toContain(expected);

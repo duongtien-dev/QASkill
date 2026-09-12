@@ -2,65 +2,36 @@
 
 ## Purpose
 
-Verify the UI remains usable across viewport sizes.
+Check that the UI stays usable across viewport sizes.
 
 ## Apply When
 
-A UI, screenshot or component indicates a responsive web interface. Skip when
-`responsive.enabled` is `false` in `config.yml`.
-
-## Inputs To Inspect
-
-- Tailwind classes (`sm:`, `md:`, `lg:`, `xl:`)
-- Media queries
-- Grid/flex configuration
-- Container and layout components
+A UI/page is available and `responsive.enabled` is `true`. Skip otherwise.
 
 ## Procedure
 
-1. Determine whether responsive behavior exists.
-2. Derive expectations from breakpoints when visible in code.
-3. Otherwise test the default categories: Mobile, Tablet, Desktop.
+1. Confirm responsive behavior exists (Tailwind `sm:`/`md:`/`lg:`, media queries,
+   grid/flex).
+2. Derive expectations from visible breakpoints when present.
+3. Otherwise use Mobile / Tablet / Desktop as the categories.
 
-## Default Target Categories
+## Compact Mode Rule
 
-```text
-Mobile
-Tablet
-Desktop
-```
-
-Do not require exact pixel widths unless project breakpoints are available.
+In Standard mode, generate at most `responsive.standard_max_cases` cases
+(default 3). Do not emit a case per breakpoint combination.
 
 ## Checklist
 
 ```text
-No horizontal overflow
-Text does not overlap
-Buttons remain usable
-Inputs remain accessible
-Modal fits viewport
-Table behavior is usable
-Images scale correctly
-Navigation adapts
-Important actions remain visible
-Touch targets remain usable
-```
-
-## Evidence Example
-
-Source: `grid-cols-1 md:grid-cols-2`
-
-```text
-Verify the form uses one-column layout below the md breakpoint
-and two-column layout at/above the md breakpoint.
+no horizontal overflow | text does not overlap | buttons/inputs usable
+modal fits viewport | table usable | images scale | navigation adapts
+important actions visible
 ```
 
 ## Do Not Assume
 
-- Do not invent breakpoints that are not in the code or requirements.
-- Do not claim exact pixel behavior without evidence.
+Do not invent breakpoints, pixel widths or behaviors that are not in evidence.
 
 ## Output Expectations
 
-Cases classified as type RESPONSIVE, referencing the breakpoint and its source.
+RESPONSIVE cases referencing the breakpoint and its source.

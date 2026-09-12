@@ -6,6 +6,7 @@ import { CONFIG_FILENAME, getQaSkillsDir } from '../utils/paths.js';
 import {
     buildDefaultConfig,
     configSchema,
+    migrateConfigV1ToV2,
     type Language,
     type QaskillConfig,
 } from '../schemas/config.schema.js';
@@ -26,7 +27,24 @@ export function validateConfig(data: unknown): QaskillConfig {
     return result.data;
 }
 
-/** Parse and validate raw YAML text. */
+/**
+ * Decide whether a parsed config needs migration from version 1.
+ *
+ * A version 2 file is always kept as-is. A version 1 (or unversioned legacy)
+ * file is upgraded in memory so existing installations keep working.
+ */
+export function needsMigration(parsed: unknown): boolean {
+    if (parsed === null || typeof parsed !== 'object') {
+        return false;
+    }
+    const version = (parsed as { version?: unknown }).version;
+    if (version === 2) {
+        return false;
+    }
+    return version === 1 || version === undefined;
+}
+
+/** Parse and validate raw YAML text, migrating version 1 configs in memory. */
 export function parseConfigString(raw: string): QaskillConfig {
     let parsed: unknown;
     try {
@@ -37,7 +55,8 @@ export function parseConfigString(raw: string): QaskillConfig {
     if (parsed === null || typeof parsed !== 'object') {
         throw new ConfigError('config.yml must contain a YAML mapping.');
     }
-    return validateConfig(parsed);
+    const data = needsMigration(parsed) ? migrateConfigV1ToV2(parsed) : parsed;
+    return validateConfig(data);
 }
 
 /** Serialize a config to YAML (never wraps long lines). */
@@ -62,4 +81,29 @@ export async function writeDefaultConfig(
     const config = buildDefaultConfig(language);
     await writeTextFile(getConfigPath(projectRoot), serializeConfig(config));
     return config;
+}
+
+/**
+ * Migrate an on-disk version 1 `config.yml` to version 2 (spec section 56).
+ *
+ * Returns `false` when the file is already version 2 or missing. The caller is
+ * responsible for creating a backup before calling this (spec section 57).
+ */
+export async function migrateConfigFile(projectRoot: string): Promise<boolean> {
+    const configPath = getConfigPath(projectRoot);
+    if (!(await pathExists(configPath))) {
+        return false;
+    }
+    let parsed: unknown;
+    try {
+        parsed = YAML.parse(await readTextFile(configPath));
+    } catch (error) {
+        throw new ConfigError(`config.yml is not valid YAML: ${errorMessage(error)}`);
+    }
+    if (!needsMigration(parsed)) {
+        return false;
+    }
+    const migrated = validateConfig(migrateConfigV1ToV2(parsed));
+    await writeTextFile(configPath, serializeConfig(migrated));
+    return true;
 }

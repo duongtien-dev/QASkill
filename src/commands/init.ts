@@ -27,18 +27,11 @@ function resolveLanguage(value: string | undefined): Language {
 
 function printInstructions(result: InitResult, logger: Logger): void {
     logger.raw('');
-    logger.raw('QASkill installed successfully.');
+    logger.raw('QASkill installed.');
     logger.raw('');
-    logger.raw('Ask your AI coding agent:');
-    logger.raw('');
-    logger.raw('  "Read .qa-skills/SKILL.md first.');
-    logger.raw('   Analyze this UI using QASkill and generate manual test cases.');
-    logger.raw('   Do not invent business rules."');
-    logger.raw('');
-    logger.raw('Recommended context:');
-    logger.raw('- screenshot');
-    logger.raw('- relevant component source');
-    logger.raw('- requirement / business rules');
+    logger.raw('AI prompt:');
+    logger.raw('Use QASkill for this UI.');
+    logger.raw('Read `.qa-skills/SKILL.md`.');
     logger.raw('');
 }
 
@@ -84,7 +77,7 @@ export async function runInit(options: InitCommandOptions = {}): Promise<InitRes
     } else {
         logger.info('Minimal install — no presets installed (use "qaskill add <preset>")');
     }
-    logger.success(`Config created (language: ${result.config.language})`);
+    logger.success(`Config created (version 2, language: ${result.config.language})`);
 
     logger.raw('');
     logger.raw(`Location: ${result.qaSkillsDir}`);

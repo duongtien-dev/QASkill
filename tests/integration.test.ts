@@ -38,6 +38,8 @@ describe('integration: init -> add -> doctor', () => {
 
     const config = await loadConfig(projectRoot);
     expect(config.language).toBe('vi');
+    expect(config.version).toBe(2);
+    expect(config.testcase.format).toBe('compact');
 
     const doctor = await runDoctor(projectRoot);
     expect(doctor.healthy).toBe(true);
@@ -55,7 +57,7 @@ describe('integration: init -> add -> doctor', () => {
     expect(files.filter((file) => /^skills\/.+\/SKILL\.md$/.test(file)).length).toBe(10);
     // 10 presets, 3 output templates.
     expect(files.filter((file) => file.startsWith('presets/')).length).toBe(10);
-    expect(files.filter((file) => file.startsWith('templates/')).length).toBe(3);
+    expect(files.filter((file) => file.startsWith('templates/')).length).toBe(4);
     expect(files).toContain('custom/README.md');
 
     const installed = await listInstalledPresets(projectRoot);

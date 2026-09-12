@@ -28,6 +28,7 @@ is often incomplete. It may:
 - produce inconsistent output formats
 - create duplicate test cases
 - fail to distinguish facts from assumptions
+- bury a few test cases in long, unfocused explanations
 
 QASkill installs a **repeatable QA methodology** into your project so the AI follows
 the same test-design process every time — and clearly separates what comes from
@@ -63,6 +64,32 @@ npm CLI + Markdown/YAML skill files + templates + presets
 It has **no** LLM API, backend, database, login, dashboard, vector database, or
 browser automation. Your AI coding tool already provides the LLM. QASkill provides
 the methodology, instructions, rules, checklists, presets and output contract.
+
+---
+
+## Default response behavior (v1.1)
+
+QASkill analyzes deeply but answers narrowly. The default response is **only the
+test cases**, in a compact table. It does not print methodology, applied skills,
+evidence summaries, UI inventories, coverage narration, recommendations, intros or
+outros.
+
+```text
+| ID | Type | Test Case | Steps | Test Data | Expected Result | Priority |
+```
+
+Three response modes control the size of the result:
+
+```text
+quick      8-15 cases
+standard  15-30 cases (default)
+deep      20-60 cases
+```
+
+Extra sections (coverage summary, evidence, inventory, recommendations) and larger
+limits are **opt-in** through `config.yml`. Missing business rules are reported
+only when they change expected results, and are capped by
+`response.max_missing_rules`.
 
 ---
 
@@ -172,7 +199,8 @@ redirect to Dashboard
 password complexity
 ```
 
-Those instead appear under **Questions / Missing Rules**.
+Those instead appear under **Missing Rules** (limited by
+`response.max_missing_rules`), never as fabricated expected results.
 
 See `examples/user-management/` for a CRUD + table + search + filter + pagination +
 modal example.
@@ -200,7 +228,7 @@ Exit codes: `0` success, `1` user/validation error.
 - compares the package version
 - creates a backup at .qa-skills-backup-YYYYMMDD-HHmmss/
 - refreshes managed standard files
-- preserves config.yml
+- preserves config.yml (migrates a version 1 file to version 2 after the backup)
 - never overwrites .qa-skills/custom/
 ```
 
@@ -237,8 +265,9 @@ Exit codes: `0` success, `1` user/validation error.
 │   └── filter.md  pagination.md  modal.md  upload.md  navigation.md
 │
 ├── templates/
-│   ├── testcase-markdown.md
-│   ├── testcase-compact.md
+│   ├── testcase-compact.md    # default (quick + standard)
+│   ├── testcase-detailed.md   # deep / detailed format
+│   ├── testcase-markdown.md   # legacy v1 format
 │   └── coverage-report.md
 │
 └── custom/                   # your project-specific content (never overwritten)
@@ -252,24 +281,33 @@ Exit codes: `0` success, `1` user/validation error.
 `.qa-skills/config.yml`:
 
 ```yaml
-version: 1
+version: 2
 
-language: en            # en | vi
+language: en                 # en | vi
+
+response:
+  mode: standard             # quick | standard | deep
+  output_only: true          # print only the test cases
+  show_intro: false
+  show_outro: false
+  show_methodology: false
+  show_applied_skills: false
+  show_ui_inventory: false
+  show_evidence_summary: false
+  show_coverage_summary: false
+  show_recommendations: false
+  max_missing_rules: 5
 
 testcase:
-  format: markdown      # markdown | compact
+  format: compact            # compact (default) | detailed | markdown (legacy)
   id_prefix: TC
-  include:
-    - id
-    - module
-    - type
-    - title
-    - preconditions
-    - steps
-    - test_data
-    - expected_result
-    - priority
-    - evidence
+  merge_similar_cases: true
+  only_applicable_cases: true
+  limits:
+    quick:    { target_min: 8,  target_max: 15 }
+    standard: { target_min: 15, target_max: 30 }
+    deep:     { target_min: 20, target_max: 60 }
+  include: [id, type, test_case, steps, test_data, expected_result, priority]
 
 priorities: [HIGH, MEDIUM, LOW]
 
@@ -284,20 +322,26 @@ types:
   - ACCESSIBILITY
 
 rules:
-  include_unknown_rules_section: true
-  include_coverage_summary: true
   prevent_business_rule_invention: true
   remove_duplicates: true
+  group_data_variants: true
+  ask_before_testing: false
+  preserve_critical_cases_over_limit: true
 
 responsive:
   enabled: true
+  standard_max_cases: 3
 
 accessibility:
   enabled: true
+  standard_max_cases: 3
 ```
 
 `language` controls the language of the **generated test cases**; the methodology
 files remain English for consistency.
+
+A version 1 `config.yml` keeps working: `qaskill update` (and config loading)
+migrates it to version 2, preserving your language and known rule flags.
 
 ---
 

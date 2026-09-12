@@ -1,16 +1,17 @@
 # Output Template: Test Case (Compact)
 
-Template for `testcase.format: compact`. Useful when developers want quick
-self-test cases.
+Default template for `testcase.format: compact` (Quick and Standard modes).
 
-| ID | Type | Scenario | Test Data | Expected | Priority |
-|---|---|---|---|---|---|
-| <PREFIX>-001 | FUNCTIONAL | <scenario> | <data> | <observable result> | HIGH |
-| <PREFIX>-002 | VALIDATION | <scenario> | <data> | <observable result> | MEDIUM |
-| <PREFIX>-003 | BOUNDARY | <scenario> | <value at boundary> | <observable result> | MEDIUM |
+| ID | Type | Test Case | Steps | Test Data | Expected Result | Priority |
+|---|---|---|---|---|---|---|
+| TC-001 | FUNCTIONAL | Login with valid credentials | 1. Enter valid email; 2. Enter valid password; 3. Click Login | valid account | Request succeeds; the app reaches the authenticated state | HIGH |
+| TC-002 | VALIDATION | Submit without email | 1. Leave email empty; 2. Click Login | (empty) | Required-email error is shown | HIGH |
+| TC-003 | BOUNDARY | Password length boundaries | Enter passwords at min-1, min, min+1, max-1, max, max+1 | 7, 8, 9, 19, 20, 21 chars | Values outside the rule are rejected; valid values accepted | MEDIUM |
 
-Notes:
+Rules:
 
-- Keep the same ID, priority and evidence discipline as the Markdown format.
+- Number the steps on one line, separated by `;`.
+- Group data variants in `Test Data`; do not add a row per value.
+- One observable result per case.
+- Keep the same ID, priority and evidence discipline as the detailed format.
 - The compact format is a rendering choice, not a reduction in coverage.
-- Evidence may be summarized in the Scenario column when necessary.

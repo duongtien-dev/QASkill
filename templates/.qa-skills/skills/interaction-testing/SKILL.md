@@ -2,52 +2,36 @@
 
 ## Purpose
 
-Verify that interactive controls respond correctly to user and browser input.
+Verify interactive controls respond correctly to user and browser input.
 
 ## Apply When
 
 Any clickable, focusable, keyboard-reachable or dismissible element exists.
 
-## Inputs To Inspect
-
-- Event handlers and disabled conditions
-- Keyboard listeners (keydown, Escape, Enter, Tab)
-- Modal/drawer open-close logic
-- Focus management
-
 ## Procedure
 
-1. List interactive elements from the UI inventory.
-2. Identify their supported input paths (mouse, keyboard, touch).
-3. Generate only the applicable interaction cases.
+1. List interactive elements from the internal inventory.
+2. Identify supported input paths (mouse, keyboard, touch).
+3. Generate only applicable interaction cases.
 
-## Checklist
+## Candidate Scenarios
 
 ```text
-single click
-double click
-rapid click
-keyboard submit
-Enter key
-Escape key
-Tab navigation
-focus movement
-button disabled during submit
-modal open/close
-click outside modal
-browser back
-refresh
-switch tab
-change filter
-clear search
+single/rapid click | keyboard submit | Enter | Escape | Tab/focus movement
+disabled during submit | modal open/close and outside click
+browser back | refresh | change filter | clear search
 ```
+
+## Only Applicable
+
+Skip scenarios the implementation does not support (for example Escape-to-close
+when it is disabled).
 
 ## Do Not Assume
 
-- Do not assume Escape or outside-click closes a modal if the implementation
-  explicitly prevents it.
-- Do not assume Enter submits if the form does not support it.
+Do not assume Escape or outside-click closes a modal, or that Enter submits,
+without evidence.
 
 ## Output Expectations
 
-Cases classified as type INTERACTION, with the interaction path described precisely.
+INTERACTION cases with the precise interaction path.
