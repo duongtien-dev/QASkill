@@ -8,40 +8,40 @@ import { findProjectRoot } from '../services/project-root.js';
 import { confirm } from '../utils/prompt.js';
 
 export interface RemoveCommandOptions {
-  cwd?: string;
-  yes?: boolean;
-  logger?: Logger;
+    cwd?: string;
+    yes?: boolean;
+    logger?: Logger;
 }
 
 /** `qaskill remove <preset>` (spec section 45). */
 export async function runRemove(
-  preset: string,
-  options: RemoveCommandOptions = {},
+    preset: string,
+    options: RemoveCommandOptions = {},
 ): Promise<RemovePresetResult> {
-  const logger = options.logger ?? defaultLogger;
-  const cwd = options.cwd ?? process.cwd();
+    const logger = options.logger ?? defaultLogger;
+    const cwd = options.cwd ?? process.cwd();
 
-  const { root: projectRoot } = findProjectRoot(cwd);
-  if (!(await pathExists(getQaSkillsDir(projectRoot)))) {
-    throw new InstallationError(`${QA_SKILLS_DIR} is not installed in ${projectRoot}.`, [
-      'Run "qaskill init" first.',
-    ]);
-  }
-
-  if (!options.yes) {
-    const answer = await confirm(`Remove preset "${preset}"?`);
-    if (answer === undefined) {
-      throw new PresetError('Non-interactive shell detected.', [
-        'Re-run with --yes to remove without prompting.',
-      ]);
+    const { root: projectRoot } = findProjectRoot(cwd);
+    if (!(await pathExists(getQaSkillsDir(projectRoot)))) {
+        throw new InstallationError(`${QA_SKILLS_DIR} is not installed in ${projectRoot}.`, [
+            'Run "qaskill init" first.',
+        ]);
     }
-    if (!answer) {
-      throw new PresetError('Removal cancelled.');
-    }
-  }
 
-  const result = await removePreset(projectRoot, preset);
-  logger.success(`Preset "${result.preset}" removed`);
-  logger.raw(`  Presets installed: ${result.presets.length}`);
-  return result;
+    if (!options.yes) {
+        const answer = await confirm(`Remove preset "${preset}"?`);
+        if (answer === undefined) {
+            throw new PresetError('Non-interactive shell detected.', [
+                'Re-run with --yes to remove without prompting.',
+            ]);
+        }
+        if (!answer) {
+            throw new PresetError('Removal cancelled.');
+        }
+    }
+
+    const result = await removePreset(projectRoot, preset);
+    logger.success(`Preset "${result.preset}" removed`);
+    logger.raw(`  Presets installed: ${result.presets.length}`);
+    return result;
 }

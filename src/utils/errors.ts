@@ -7,44 +7,44 @@
  * user passes `--debug`.
  */
 export class QaskillError extends Error {
-  /** Optional extra lines rendered under the main message (e.g. hints). */
-  readonly details: string[];
+    /** Optional extra lines rendered under the main message (e.g. hints). */
+    readonly details: string[];
 
-  constructor(message: string, details: string[] = []) {
-    super(message);
-    this.name = 'QaskillError';
-    this.details = details;
-  }
+    constructor(message: string, details: string[] = []) {
+        super(message);
+        this.name = 'QaskillError';
+        this.details = details;
+    }
 }
 
 export class ConfigError extends QaskillError {
-  constructor(message: string, details: string[] = []) {
-    super(message, details);
-    this.name = 'ConfigError';
-  }
+    constructor(message: string, details: string[] = []) {
+        super(message, details);
+        this.name = 'ConfigError';
+    }
 }
 
 export class PresetError extends QaskillError {
-  constructor(message: string, details: string[] = []) {
-    super(message, details);
-    this.name = 'PresetError';
-  }
+    constructor(message: string, details: string[] = []) {
+        super(message, details);
+        this.name = 'PresetError';
+    }
 }
 
 export class InstallationError extends QaskillError {
-  constructor(message: string, details: string[] = []) {
-    super(message, details);
-    this.name = 'InstallationError';
-  }
+    constructor(message: string, details: string[] = []) {
+        super(message, details);
+        this.name = 'InstallationError';
+    }
 }
 
 export function isQaskillError(error: unknown): error is QaskillError {
-  return error instanceof QaskillError;
+    return error instanceof QaskillError;
 }
 
 export function errorMessage(error: unknown): string {
-  if (error instanceof Error) {
-    return error.message;
-  }
-  return String(error);
+    if (error instanceof Error) {
+        return error.message;
+    }
+    return String(error);
 }

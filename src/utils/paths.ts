@@ -23,35 +23,35 @@ const currentDir = path.dirname(fileURLToPath(import.meta.url));
  * Both are two levels below the package root.
  */
 export function getPackageRoot(): string {
-  return path.resolve(currentDir, '..', '..');
+    return path.resolve(currentDir, '..', '..');
 }
 
 /** Absolute path of the bundled `templates/.qa-skills` directory. */
 export function getTemplatesDir(): string {
-  return path.join(getPackageRoot(), 'templates', QA_SKILLS_DIR);
+    return path.join(getPackageRoot(), 'templates', QA_SKILLS_DIR);
 }
 
 /** Absolute path of the managed directory for a given project root. */
 export function getQaSkillsDir(projectRoot: string): string {
-  return path.join(projectRoot, QA_SKILLS_DIR);
+    return path.join(projectRoot, QA_SKILLS_DIR);
 }
 
 export interface PackageInfo {
-  name: string;
-  version: string;
+    name: string;
+    version: string;
 }
 
 /** Read name/version from the adjacent package.json at runtime. */
 export function getPackageInfo(): PackageInfo {
-  const packageJsonPath = path.join(getPackageRoot(), 'package.json');
-  try {
-    const raw = fs.readFileSync(packageJsonPath, 'utf8');
-    const parsed = JSON.parse(raw) as Partial<PackageInfo>;
-    return {
-      name: parsed.name ?? 'qaskill',
-      version: parsed.version ?? '0.0.0',
-    };
-  } catch {
-    return { name: 'qaskill', version: '0.0.0' };
-  }
+    const packageJsonPath = path.join(getPackageRoot(), 'package.json');
+    try {
+        const raw = fs.readFileSync(packageJsonPath, 'utf8');
+        const parsed = JSON.parse(raw) as Partial<PackageInfo>;
+        return {
+            name: parsed.name ?? 'qaskill',
+            version: parsed.version ?? '0.0.0',
+        };
+    } catch {
+        return { name: 'qaskill', version: '0.0.0' };
+    }
 }

@@ -9,31 +9,31 @@ import readline from 'node:readline/promises';
  *   never hangs waiting for input.
  */
 export interface ConfirmOptions {
-  /** Assume yes/true without prompting (CI / `--yes`). */
-  assumeYes?: boolean;
-  /** Assume no/false without prompting. */
-  assumeNo?: boolean;
+    /** Assume yes/true without prompting (CI / `--yes`). */
+    assumeYes?: boolean;
+    /** Assume no/false without prompting. */
+    assumeNo?: boolean;
 }
 
 export async function confirm(
-  question: string,
-  options: ConfirmOptions = {},
+    question: string,
+    options: ConfirmOptions = {},
 ): Promise<boolean | undefined> {
-  if (options.assumeYes) {
-    return true;
-  }
-  if (options.assumeNo) {
-    return false;
-  }
-  if (!process.stdin.isTTY || !process.stdout.isTTY) {
-    return undefined;
-  }
+    if (options.assumeYes) {
+        return true;
+    }
+    if (options.assumeNo) {
+        return false;
+    }
+    if (!process.stdin.isTTY || !process.stdout.isTTY) {
+        return undefined;
+    }
 
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  try {
-    const answer = (await rl.question(`${question} [y/N] `)).trim().toLowerCase();
-    return answer === 'y' || answer === 'yes';
-  } finally {
-    rl.close();
-  }
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    try {
+        const answer = (await rl.question(`${question} [y/N] `)).trim().toLowerCase();
+        return answer === 'y' || answer === 'yes';
+    } finally {
+        rl.close();
+    }
 }

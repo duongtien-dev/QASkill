@@ -18,7 +18,7 @@
     "node": ">=20"
   },
   "bin": {
-    "qaskill": "./dist/index.js"
+    "qaskill": "dist/index.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
